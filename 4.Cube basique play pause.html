@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+
+<head>
+    <title>Three.min.js welcome!</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body>
+    <h1 align="center">CUBE</h1>
+    <script src="js/three.min.js"></script>
+    <script>
+        var render, scene, camera, cube;
+        var rotation=true;
+        
+        window.addEventListener('keydown', function(event) {
+            if (event.keyCode == 32) {
+                rotation= !rotation;
+            }
+          
+        });
+
+        function init() {
+
+            scene = new THREE.Scene();
+
+            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+
+            renderer = new THREE.WebGLRenderer();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            document.body.appendChild(renderer.domElement);
+
+            //crate the shape
+            var geometry = new THREE.BoxGeometry(1, 1, 1);
+
+            //create a material,colour or img texture
+            var material = new THREE.MeshBasicMaterial({
+                color: 0x10FFFF,
+                wireframe: true
+            });
+            
+                //afficher les axes: x::red , y::green
+            var axisHelper = new THREE.AxisHelper(5); 
+            scene.add(axisHelper); 
+
+            cube = new THREE.Mesh(geometry, material);
+            scene.add(cube);
+
+
+            //ZOOM + - 
+            camera.position.z = 3;
+
+        }
+
+
+        //game logic
+         function update() {
+            if (rotation==true){
+            cube.rotation.x += 0.01;
+            cube.rotation.y += 0.005;
+            }
+        };
+
+        function render() {
+            requestAnimationFrame(render);
+            //draw Scene
+            renderer.render(scene, camera);
+            update();
+        }
+
+        init();
+        render();
+
+    </script>
+
+</body>
+
+</html>
